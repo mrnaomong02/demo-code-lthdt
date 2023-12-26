@@ -18,6 +18,12 @@ public class GiaoDienView extends javax.swing.JFrame {
         jTextFieldID.setText(String.valueOf(id));
         jTextFieldFullname.setText(fullname);
         jTextFieldEmail.setText(email);
+        
+        jButtonEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditActionPerformed(evt);
+            }
+        });
     }
 
     /**
@@ -36,6 +42,8 @@ public class GiaoDienView extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jTextFieldEmail = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jButtonSave = new javax.swing.JButton();
+        jButtonEdit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -49,6 +57,15 @@ public class GiaoDienView extends javax.swing.JFrame {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButtonSave.setText("Lưu");
+
+        jButtonEdit.setText("Cập nhật");
+        jButtonEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditActionPerformed(evt);
             }
         });
 
@@ -71,13 +88,23 @@ public class GiaoDienView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addComponent(jButtonEdit)
+                .addGap(44, 44, 44)
+                .addComponent(jButtonSave)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonSave)
+                    .addComponent(jButtonEdit))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
@@ -103,6 +130,24 @@ public class GiaoDienView extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditActionPerformed
+        // TODO add your handling code here:
+        int id = Integer.parseInt(jTextFieldID.getText());
+        String fullname = jTextFieldFullname.getText();
+        String email = jTextFieldEmail.getText();
+
+        // Call the method in GiaoDien class to update data
+        updateData(id, fullname, email);
+    }//GEN-LAST:event_jButtonEditActionPerformed
+
+    
+    private void updateData(int id, String fullname, String email) {
+        GiaoDien giaoDien = new GiaoDien();
+        giaoDien.capNhatDuLieu(id, fullname, email);
+
+        // Close the current window
+        this.dispose();
+    }
     /**
      * @param args the command line arguments
      */
@@ -140,6 +185,8 @@ public class GiaoDienView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonEdit;
+    private javax.swing.JButton jButtonSave;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

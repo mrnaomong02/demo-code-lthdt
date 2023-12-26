@@ -4,6 +4,7 @@ raven\cell\PanelAction$5.class
 com\mycompany\giaodienthick\GiaoDien$6.class
 com\mycompany\giaodienthick\GiaoDienAdd.class
 raven\cell\TableActionCellRender.class
+com\mycompany\giaodienthick\GiaoDienView$2.class
 com\mycompany\giaodienthick\GiaoDienCK$2.class
 com\mycompany\giaodienthick\GiaoDienView.class
 raven\cell\PanelAction$2.class
@@ -13,6 +14,7 @@ com\mycompany\giaodienthick\GiaoDien$2.class
 com\mycompany\giaodienthick\GiaoDien.class
 com\mycompany\giaodienthick\GiaoDienAdd$2.class
 com\mycompany\giaodienthick\GiaoDienAdd$SaveEvent.class
+com\mycompany\giaodienthick\GiaoDienView$3.class
 com\mycompany\giaodienthick\GiaoDien$7.class
 raven\cell\ActionButton.class
 com\mycompany\giaodienthick\SaveListener.class

@@ -27,6 +27,7 @@ import raven.cell.TableActionEvent;
  */
 public class GiaoDien extends javax.swing.JFrame implements SaveListener{
 private TableActionEvent event;
+private int editedRow = -1;
     /**
      * Creates new form GiaoDien
      */
@@ -38,19 +39,31 @@ private DefaultTableModel model2;
         TableActionEvent event = new TableActionEvent() {
             @Override
         public void onEdit(int row, int[] columnsToEdit) {
-                // Hiển thị trình chỉnh sửa tùy chỉnh khi nhấp vào nút "Edit"
-                openCustomEditor(row, columnsToEdit);
-                openCustomEditor2(row, columnsToEdit);
-                openCustomEditor3(row, columnsToEdit);
+//            openCustomEditor(row, columnsToEdit);
+//            openCustomEditor2(row, columnsToEdit);
+//            openCustomEditor3(row, columnsToEdit);
+//            editedRow = row; // Lưu lại dòng đã chỉnh sửa
+//
+//            int selectedRow = jTable1.getSelectedRow();
+//            int id = (int) jTable1.getValueAt(editedRow, 0);
+//            String fullname = (String) jTable1.getValueAt(editedRow, 1);
+//            String email = (String) jTable1.getValueAt(editedRow, 2);
+//
+//    // Cập nhật dữ liệu và kiểm tra kết quả
+//            if (capNhatDuLieu(id, fullname, email)) {
+//                loadData(); // Load lại dữ liệu sau khi cập nhật
+//                jTable1.setRowSelectionInterval(editedRow, editedRow);
+//            } else {
+//                System.out.println("Lỗi");
+//            }
+            view();
         }
 
             @Override
             public void onDelete(int row) {
-                if (jTable1.isEditing()) {
-                    jTable1.getCellEditor().stopCellEditing();
-                }
-                model2.removeRow(row);
-                xoa(row+1);
+                int s=jTable1.getSelectedRow();
+                int id=(int)jTable1.getValueAt(s, 0);
+                xoa(id);
             }
 
             @Override
@@ -230,7 +243,15 @@ private DefaultTableModel model2;
     
     public void onSave(SaveEvent event) {
         JOptionPane.showMessageDialog(this, "GiaoDienAdd đã được đóng và dữ liệu đã được lưu.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+    if (editedRow != -1) {
+        // Nếu có dòng đã chỉnh sửa, load lại dữ liệu và chọn lại dòng đó
         loadData();
+        jTable1.setRowSelectionInterval(editedRow, editedRow);
+        editedRow = -1; // Đặt lại giá trị để tránh tình trạng lặp
+    } else {
+        // Nếu không có dòng đã chỉnh sửa, chỉ load lại dữ liệu
+        loadData();
+    }
     }
 
     
@@ -329,7 +350,44 @@ private DefaultTableModel model2;
             ex.printStackTrace();
         }
     }
+    }
+    public void capNhatDuLieu(int id, String fullname, String email) {
+    Connection ketNoi = null;
+    try {
+        ketNoi = KetNoi.layKetNoi();
+        String sql = "UPDATE QuanLySV SET fullname = ?, email = ? WHERE id = ?";
+        PreparedStatement ps = ketNoi.prepareStatement(sql);
+        ps.setString(1, fullname);
+        ps.setString(2, email);
+        ps.setInt(3, id);
+
+        int rowCount = ps.executeUpdate();
+
+        // Commit the changes
+        ketNoi.commit();
+
+        // Check if the update was successful
+        if (rowCount > 0) {
+            JOptionPane.showMessageDialog(this, "Cập nhật sinh viên thành công", "Success", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Không thể cập nhật sinh viên", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Lỗi khi cập nhật sinh viên: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
+    } finally {
+        try {
+            if (ketNoi != null && !ketNoi.isClosed()) {
+                ketNoi.close();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
 }
+
+    
+    
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
